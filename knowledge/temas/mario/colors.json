@@ -1,0 +1,5 @@
+[
+  {"id": "azul-100", "name": "Azul Céu", "hex": "#cfe0ff", "description": "Tom suave para painéis e detalhes de balões.", "usage": ["balões", "decoração de mesa"]},
+  {"id": "azul-500", "name": "Azul Royal", "hex": "#4f66f0", "description": "Azul vibrante para estruturas e letras em destaque.", "usage": ["painéis", "acessórios"]},
+  {"id": "vermelho-500", "name": "Vermelho Mario", "hex": "#ff3b30", "description": "Vermelho icônico que remete à identidade do personagem.", "usage": ["balões", "toalhas"]}
+]

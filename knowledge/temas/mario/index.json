@@ -1,0 +1,14 @@
+{
+  "id": "mario",
+  "slug": "super-festa-mario",
+  "name": "Super Festa Mario",
+  "description": "Tema lúdico e colorido inspirado no universo de Mario, ideal para aniversários infantis com elementos de videogame.",
+  "palettes": ["azul", "vermelho"],
+  "characters": ["Mario", "Luigi", "Princess Peach"],
+  "events": ["Aniversário infantil"],
+  "suppliers": ["forn1", "forn2"],
+  "occasions": ["Aniversário infantil"],
+  "heroImage": "/images/themes/mario-hero.png",
+  "createdAt": "2026-06-29T08:00:00.000Z",
+  "updatedAt": "2026-06-29T08:00:00.000Z"
+}

@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "@components/*": ["./components/*"],
+      "@services/*": ["./services/*"],
+      "@types/*": ["./types/*"],
+      "@lib/*": ["./lib/*"],
+      "@hooks/*": ["./hooks/*"],
+      "@utils/*": ["./utils/*"],
+      "@database/*": ["./database/*"],
+      "@modules/*": ["./modules/*"],
+      "@knowledge/*": ["./knowledge/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+}

@@ -1,0 +1,5 @@
+[
+  {"id": "shopping-1", "itemId": "painel-mario", "quantity": 1, "estimatedPrice": 420.0, "purchased": false},
+  {"id": "shopping-2", "itemId": "balões-vermelhos", "quantity": 30, "estimatedPrice": 95.0, "purchased": false},
+  {"id": "shopping-3", "itemId": "toalha-festa", "quantity": 5, "estimatedPrice": 120.0, "purchased": false}
+]
