@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { Button, Card, Section } from '@components/ui';
-import { Header } from '@components/layout';
+import { Button, Card, Section } from '@/components/ui';
+import { Header } from '@/components/layout';
 
 const modules = [
   { title: 'Planner', description: 'Monte eventos completos com cronogramas e listas de compras inteligentes.', href: '/planner' },
