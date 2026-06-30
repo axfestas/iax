@@ -1,28 +1,70 @@
 'use client';
 
-import { useMemo, useState } from 'react';
-import { chatService } from '@/services/chat';
+import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import { Search } from '@/components/ui';
+import { ArrowRight, Send } from 'lucide-react';
+import type { ChatAgent, ChatMessage } from '@/types';
+
+const agent: ChatAgent = {
+  id: 'agent-iax',
+  name: 'IAX Gemini',
+  role: 'Assistente criativo',
+  description: 'Gera temas, paletas, ideias de painéis e planos de festa com linguagem livre.'
+};
+
+const initialMessages: ChatMessage[] = [
+  { id: 'msg-1', sender: 'agent', text: 'Olá! Me conte qual festa você quer planejar hoje.', timestamp: new Date().toISOString() }
+];
 
 export default function ChatPage() {
-  const [messages, setMessages] = useState(chatService.getInitialConversation());
+  const [messages, setMessages] = useState<ChatMessage[]>(initialMessages);
   const [text, setText] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const agent = useMemo(() => chatService.getAgent(), []);
-
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!text.trim()) return;
-    setMessages(chatService.sendMessage(text.trim()));
+    const userMessage: ChatMessage = { id: `msg-${Date.now()}-user`, sender: 'user', text: text.trim(), timestamp: new Date().toISOString() };
+    setMessages((current) => [...current, userMessage]);
     setText('');
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch('/api/ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: userMessage.text })
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data?.error || 'Erro ao consultar Gemini.');
+      }
+
+      const agentMessage: ChatMessage = {
+        id: `msg-${Date.now()}-agent`,
+        sender: 'agent',
+        text: data.text || 'Desculpe, não consegui gerar uma resposta.',
+        timestamp: new Date().toISOString()
+      };
+
+      setMessages((current) => [...current, agentMessage]);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erro desconhecido.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <main className="space-y-8">
       <section className="rounded-[32px] border border-slate-200 bg-white p-8 shadow-soft">
-        <p className="text-sm uppercase tracking-[0.3em] text-slate-400">Chat</p>
-        <h1 className="mt-3 text-3xl font-semibold text-slate-950">Converse com o assistente de festas.</h1>
-        <p className="mt-4 max-w-2xl text-sm leading-6 text-slate-600">Use o chat para receber sugestões de temas, planejamento, mercado e estoque em uma experiência conversacional.</p>
+        <p className="text-sm uppercase tracking-[0.3em] text-slate-400">IA Criativa</p>
+        <h1 className="mt-3 text-3xl font-semibold text-slate-950">Planeje sua festa com Gemini.</h1>
+        <p className="mt-4 max-w-2xl text-sm leading-6 text-slate-600">Pergunte sobre tema, painel, cores ou estrutura e receba ideias e sugestões em linguagem natural.</p>
       </section>
 
       <Card>
@@ -42,16 +84,16 @@ export default function ChatPage() {
             </div>
           </div>
 
-          <div className="flex gap-3">
-            <input
-              value={text}
-              onChange={(event) => setText(event.target.value)}
-              placeholder="Descreva o que você precisa para o evento"
-              className="flex-1 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
-            />
-            <Button type="button" variant="primary" size="md" onClick={handleSend}>
-              Enviar
-            </Button>
+          {error && <div className="rounded-3xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">{error}</div>}
+
+          <div className="space-y-4">
+            <Search label="Pergunte à IA Gemini" value={text} onChange={(event) => setText(event.target.value)} />
+            <div className="flex flex-wrap items-center gap-3">
+              <Button type="button" variant="primary" size="md" onClick={handleSend} disabled={loading || !text.trim()}>
+                {loading ? 'Gerando...' : 'Enviar'}
+              </Button>
+              <Button type="button" variant="outline" size="md" onClick={() => setText('')}>Limpar</Button>
+            </div>
           </div>
         </div>
       </Card>

@@ -1,4 +1,4 @@
-import './styles/globals.css';
+import '@/styles/globals.css';
 import Sidebar from '@/components/layout/Sidebar';
 import { Footer } from '@/components/layout/Footer';
 

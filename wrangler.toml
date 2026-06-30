@@ -1,0 +1,11 @@
+name = "iax"
+compatibility_date = "2026-06-30"
+account_id = "YOUR_CLOUDFLARE_ACCOUNT_ID"
+
+[[d1_databases]]
+binding = "AXFESTAS_D1"
+database_name = "axfesta"
+
+[[r2_buckets]]
+binding = "AXFESTAS_BUCKET"
+bucket_name = "bucket"
